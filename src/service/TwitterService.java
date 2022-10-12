@@ -2,7 +2,7 @@ package service;
 
 public interface TwitterService {
 
-    void wall();
+    boolean wall();
 
     boolean createUser(String name);
 

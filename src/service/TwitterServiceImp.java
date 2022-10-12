@@ -5,8 +5,10 @@ import model.User;
 
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 
 public class TwitterServiceImp implements TwitterService {
 
@@ -25,7 +27,7 @@ public class TwitterServiceImp implements TwitterService {
 
     @Override
     public String postTweet(String messageToPost) {
-        String message = String.format("%s: '%s'", userLogged.getName(), messageToPost);
+        String message = String.format("%s - %s", userLogged.getName(), messageToPost);
         Tweet tweet = new Tweet(message);
         userLogged.addTweet(tweet);
         return message;
@@ -80,14 +82,30 @@ public class TwitterServiceImp implements TwitterService {
     }
 
     private Optional<User> findUser(String namePerson, List<User> listUser) {
-        return listUser.stream().filter(user -> user.getName().equals(namePerson)).findFirst();
+        return listUser.stream().filter(user -> user.getName().equalsIgnoreCase(namePerson)).findFirst();
     }
 
     @Override
-    public void wall() {
+    public boolean wall() {
         ArrayList<Tweet> wall = new ArrayList<>();
         userLogged.getFriends().forEach(friend -> wall.addAll(friend.getTweets()));
         wall.addAll(userLogged.getTweets());
-        wall.stream().sorted(Comparator.comparing(Tweet::getTime)).forEach(tweet -> System.out.println(tweet.getMessage() + " " + tweet.getTime()));
+        boolean empty = wall.isEmpty();
+        if (!empty) {
+            wall.stream().sorted(Comparator.comparing(Tweet::getTime)).forEach(this::calculateTime);
+        }
+        return empty;
+    }
+
+    protected void calculateTime(Tweet tweet) {
+        long time = TimeUnit.MILLISECONDS.toSeconds(new Date().getTime() - tweet.getTime());
+        String measure;
+        if (time < 60) {
+            measure = " seconds ago";
+        } else {
+            time = TimeUnit.MILLISECONDS.toMinutes(new Date().getTime() - tweet.getTime());
+            measure = " minute(s) ago";
+        }
+        System.out.printf("%s (%s %s) %n", tweet.getMessage(), time, measure);
     }
 }

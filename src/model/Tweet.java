@@ -1,22 +1,22 @@
 package model;
 
-import java.time.LocalDateTime;
+import java.util.Date;
 
 
 public class Tweet {
-    private String message;
-    private LocalDateTime time;
+    private final String message;
+    private final Long time;
 
     public Tweet(String message) {
         this.message = message;
-        this.time = LocalDateTime.now();
+        this.time = new Date().getTime();
     }
 
     public String getMessage() {
         return message;
     }
 
-    public LocalDateTime getTime() {
+    public Long getTime() {
         return time;
     }
 

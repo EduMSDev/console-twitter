@@ -5,9 +5,9 @@ import java.util.List;
 
 public class User {
 
-    private String name;
-    private ArrayList<User> friends = new ArrayList<>();
-    private ArrayList<Tweet> tweets = new ArrayList<>();
+    private final String name;
+    private final ArrayList<User> friends = new ArrayList<>();
+    private final ArrayList<Tweet> tweets = new ArrayList<>();
 
     public User(String name) {
         this.name = name;

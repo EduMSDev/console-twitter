@@ -1,58 +1,62 @@
 package controller;
 
+import model.Options;
 import service.TwitterService;
 import service.factory.TwitterServiceFactory;
 
+import java.util.Arrays;
 import java.util.Scanner;
 
-public class Twitter {
+public class TwitterController {
 
     private final TwitterService twitterService;
-    Scanner scanner = new Scanner(System.in).useDelimiter("\\n");
+    Scanner scanner = new Scanner(System.in);
 
-    public Twitter(TwitterServiceFactory factory) {
+    public TwitterController(TwitterServiceFactory factory) {
         this.twitterService = factory.getTwitterService();
     }
 
     public void launchApp() {
         login();
-        String options = showMenu();
+        Options options = showMenu();
 
-        while (!options.equalsIgnoreCase("quit")) {
+        while (options != null) {
             switch (options) {
-                case "posting":
+                case POST:
                     posting();
                     break;
-                case "reading":
+                case READ:
 //                    reading();
                     break;
-                case "createUser":
+                case CREATE_USER:
                     createUser();
                     break;
-                case "following":
+                case FOLLOW:
                     following();
                     break;
-                case "wall":
+                case WALL:
                     wall();
                     break;
-                case "changeUser":
+                case CHANGE_USER:
                     changeUser();
                     break;
-                case "unfollow":
+                case UNFOLLOW:
                     unfollowUser();
                     break;
+                case EXIT:
+                    return;
                 default:
                     System.out.println("Opcion desconocida.");
             }
-            showMenu();
-            options = scanner.next();
+            options = showMenu();
         }
     }
 
-    private String showMenu() {
+    private Options showMenu() {
         System.out.println("Escoge una de las siguientes opciones:");
-        System.out.println("posting\n reading\n createUser\n following\n wall\n changeUser\n quit ");
-        return scanner.nextLine();
+        Arrays.stream(Options.values()).forEach(option -> System.out.println(option.getNameOption()));
+        String option = scanner.nextLine();
+        return Options.getOptions(option);
     }
 
     private void login() {
@@ -64,7 +68,7 @@ public class Twitter {
 
     private void posting() {
         System.out.println("Escribe el mensaje que quieres postear en tu Wall:");
-        String status = scanner.next();
+        String status = scanner.nextLine();
         String messageFinal = twitterService.postTweet(status);
         System.out.println(messageFinal);
         System.out.println("Tweet posteado!");
@@ -92,8 +96,9 @@ public class Twitter {
 
     private void wall() {
         System.out.println("A continuacion se va a mostrar el mural de las personas que sigues y la tuya:");
-        twitterService.wall();
-        System.out.println("Fin del mural");
+        boolean isEmpty = twitterService.wall();
+        String messageFinal = isEmpty ? "No se ha posteado ningun tweet. Nada que mostrar" : "Fin del muro";
+        System.out.println(messageFinal);
     }
 
     private void changeUser() {

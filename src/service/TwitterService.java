@@ -1,6 +1,6 @@
-package application.service;
+package service;
 
-public interface UserService {
+public interface TwitterService {
 
     void wall();
 
@@ -17,4 +17,6 @@ public interface UserService {
     boolean canChangeUser();
 
     void showUsers();
+
+    boolean unfollowUser(String username);
 }

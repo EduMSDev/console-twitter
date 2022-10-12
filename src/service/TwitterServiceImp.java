@@ -17,12 +17,12 @@ public class TwitterServiceImp implements TwitterService {
 
     @Override
     public boolean createUser(String name) {
-        boolean userExist = findUser(name, users).isPresent();
-        if (!userExist) {
-            User user = new User(name);
-            users.add(user);
+        Optional<User> user = findUser(name, users);
+        if (user.isEmpty()) {
+            User userToAdd = new User(name);
+            users.add(userToAdd);
         }
-        return userExist;
+        return user.isPresent();
     }
 
     @Override
@@ -38,8 +38,7 @@ public class TwitterServiceImp implements TwitterService {
         String messageFinal;
         Optional<User> userExists = findUser(username, users);
         if (userExists.isPresent()) {
-            User foundUser = userExists.get();
-            userLogged.addFriendToList(foundUser);
+            userLogged.addFriendToList(userExists.get());
             String message = String.format("%s ha seguido a %s", userLogged.getName(), userExists.get().getName());
             Tweet tweet = new Tweet(message);
             userLogged.addTweet(tweet);

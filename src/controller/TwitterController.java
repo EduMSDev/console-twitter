@@ -20,7 +20,7 @@ public class TwitterController {
         login();
         Options options = showMenu();
 
-        while (options != null) {
+        while (options != Options.EXIT) {
             switch (options) {
                 case POST:
                     posting();
@@ -80,10 +80,9 @@ public class TwitterController {
 
     private void createUser() {
         System.out.println("Introduce el  nombre del usuario: ");
-        String nameperson = scanner.next();
+        String nameperson = scanner.nextLine();
         boolean userAlreadyExists = twitterService.createUser(nameperson);
-        String messageFinal = !userAlreadyExists ? "Usuario  %s incluido con exito %n" : "El usuario con nombre %s ya" +
-                " existe %n";
+        String messageFinal = !userAlreadyExists ? "Usuario  %s incluido %n" : "El usuario con nombre %s ya existe %n";
         System.out.printf(messageFinal, nameperson);
     }
 

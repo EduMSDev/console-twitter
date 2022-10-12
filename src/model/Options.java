@@ -1,5 +1,7 @@
 package model;
 
+import java.util.Arrays;
+
 public enum Options {
     POST("post"),
     READ("read"),
@@ -8,6 +10,7 @@ public enum Options {
     WALL("wall"),
     CHANGE_USER("change"),
     UNFOLLOW("unfollow"),
+    UNKNOW("unkown"),
     EXIT("exit");
 
     private final String nameOption;
@@ -17,12 +20,7 @@ public enum Options {
     }
 
     public static Options getOptions(String constant) {
-        for (Options option : Options.values()) {
-            if (option.getNameOption().equalsIgnoreCase(constant)) {
-                return option;
-            }
-        }
-        return null;
+        return Arrays.stream(Options.values()).filter(options -> options.getNameOption().equalsIgnoreCase(constant)).findFirst().orElse(UNKNOW);
     }
 
     public String getNameOption() {

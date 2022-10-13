@@ -28,7 +28,7 @@ public class TwitterServiceImp implements TwitterService {
     @Override
     public String postTweet(String messageToPost) {
         String message = String.format("%s - %s", userLogged.getName(), messageToPost);
-        Tweet tweet = new Tweet(message);
+        Tweet tweet = Tweet.builder().message(message).time(new Date().getTime()).build();
         userLogged.addTweet(tweet);
         return message;
     }
@@ -40,7 +40,7 @@ public class TwitterServiceImp implements TwitterService {
         if (userExists.isPresent()) {
             userLogged.addFriendToList(userExists.get());
             String message = String.format("%s ha seguido a %s", userLogged.getName(), userExists.get().getName());
-            Tweet tweet = new Tweet(message);
+            Tweet tweet = Tweet.builder().message(message).time(new Date().getTime()).build();
             userLogged.addTweet(tweet);
             messageFinal = String.format("%s ahora sigue a  %s %n", userLogged.getName(), username);
         } else {

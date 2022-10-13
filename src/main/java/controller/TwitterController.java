@@ -1,5 +1,7 @@
 package controller;
 
+
+import lombok.extern.slf4j.Slf4j;
 import model.Options;
 import service.TwitterService;
 import service.factory.TwitterServiceFactory;
@@ -7,6 +9,7 @@ import service.factory.TwitterServiceFactory;
 import java.util.Arrays;
 import java.util.Scanner;
 
+@Slf4j
 public class TwitterController {
 
     private final TwitterService twitterService;
@@ -53,25 +56,26 @@ public class TwitterController {
     }
 
     private Options showMenu() {
-        System.out.println("Escoge una de las siguientes opciones:");
+        log.info("Escoge una de las siguientes opciones:");
         Arrays.stream(Options.values()).forEach(option -> System.out.println(option.getNameOption()));
         String option = scanner.nextLine();
         return Options.getOptions(option);
     }
 
     private void login() {
-        System.out.println("Bienvenido a EduSocial, tu red social de confianza ;). Por favor,  escribe tu nombre: ");
+        log.info("Bienvenido a EduSocial, tu red social de confianza ;). Por favor,  escribe tu nombre: ");
         String namePerson = this.scanner.nextLine();
         twitterService.login(namePerson);
-        System.out.printf("%s escribe al mundo lo que quieras %n", namePerson);
+        log.info("{} escribe al mundo lo que quieras %n", namePerson);
     }
 
     private void posting() {
-        System.out.println("Escribe el mensaje que quieres postear en tu Wall:");
+        log.info("Escribe el mensaje que quieres postear en tu Wall:");
         String status = scanner.nextLine();
         String messageFinal = twitterService.postTweet(status);
-        System.out.println(messageFinal);
-        System.out.println("Tweet posteado!");
+        log.info(messageFinal);
+        log.info("Tweet posteado!");
+
     }
 
     private void reading() {
@@ -87,39 +91,39 @@ public class TwitterController {
     }
 
     private void following() {
-        System.out.println("Escribe el nombre del usuario que quieres seguir: ");
+        log.info("Escribe el nombre del usuario que quieres seguir: ");
         String username = scanner.next();
         String messageFinal = twitterService.followUser(username);
-        System.out.print(messageFinal);
+        log.info(messageFinal);
     }
 
     private void wall() {
-        System.out.println("A continuacion se va a mostrar el mural de las personas que sigues y la tuya:");
+        log.info("A continuacion se va a mostrar el mural de las personas que sigues y la tuya:");
         boolean isEmpty = twitterService.wall();
         String messageFinal = isEmpty ? "No se ha posteado ningun tweet. Nada que mostrar" : "Fin del muro";
-        System.out.println(messageFinal);
+        log.info(messageFinal);
     }
 
     private void changeUser() {
         boolean canChangeUser = twitterService.canChangeUser();
         String messageFinal;
         if (canChangeUser) {
-            System.out.println("Escribe el nombre del usuario: ");
+            log.info("Escribe el nombre del usuario: ");
             twitterService.showUsers();
             String name = scanner.next();
             boolean userExists = twitterService.changeUser(name);
-            messageFinal = userExists ? "Bienvenido %s %n" : "El usuario %s no existe %n";
-            System.out.printf(messageFinal, name);
+            messageFinal = userExists ? "Bienvenido {} %n" : "El usuario {} no existe %n";
+            log.info(messageFinal, name);
         } else {
-            System.out.println("Solo hay un usuario, es necesario mas de uno para el cambio");
+            log.error("Solo hay un usuario, es necesario mas de uno para el cambio");
         }
     }
 
     private void unfollowUser() {
-        System.out.println("Escribe el nombre del usuario: ");
+        log.info("Escribe el nombre del usuario: ");
         String name = scanner.next();
         boolean isFriendRemoved = twitterService.unfollowUser(name);
         String messageFinal = isFriendRemoved ? "Has dejado de seguir a %s %n" : "%s no esta en tu lista de amigos %n";
-        System.out.printf(messageFinal, name);
+        log.info(String.format(messageFinal, name));
     }
 }

@@ -1,8 +1,13 @@
 package model;
 
+import lombok.Builder;
+import lombok.Getter;
+
 import java.util.ArrayList;
 import java.util.List;
 
+@Builder
+@Getter
 public class User {
 
     private final String name;
@@ -11,18 +16,6 @@ public class User {
 
     public User(String name) {
         this.name = name;
-    }
-
-    public List<Tweet> getTweets() {
-        return tweets;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public List<User> getFriends() {
-        return friends;
     }
 
     public void addFriendToList(User user) {

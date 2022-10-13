@@ -8,7 +8,7 @@ import command.concrete.PostCommand;
 import command.concrete.ReadCommand;
 import command.concrete.UnfollowCommand;
 import command.concrete.WallCommand;
-import model.Options;
+import model.Enum.Options;
 import singleton.ScannerSingleton;
 
 import java.util.Arrays;

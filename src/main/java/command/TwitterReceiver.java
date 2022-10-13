@@ -37,7 +37,7 @@ public class TwitterReceiver {
     public void changeUser() {
         boolean canChangeUser = users.size() > 1;
         if (canChangeUser) {
-            System.out.println("Escribe el nombre del usuario al que quieras cambiar: ");
+            System.out.printf("%s escribe el nombre del usuario al que quieras cambiar: ", userLogged.getName());
             users.forEach(user -> System.out.printf(user.getName()));
             String name = ScannerSingleton.getInstance().next();
             Optional<User> user = findUser(name, users);
@@ -53,7 +53,7 @@ public class TwitterReceiver {
     }
 
     public void createUser() {
-        System.out.println("Escribe el nombre del usuario al que quieras incluir: ");
+        System.out.printf("%s escribe el nombre del usuario al que quieras incluir: ", userLogged.getName());
         String name = ScannerSingleton.getInstance().nextLine();
         Optional<User> user = findUser(name, users);
         User userToAdd = null;
@@ -69,7 +69,7 @@ public class TwitterReceiver {
     }
 
     public void followUser() {
-        System.out.println("Escribe el nombre del usuario que quieres seguir: ");
+        System.out.printf("%s escribe el nombre del usuario que quieres seguir: ", userLogged.getName());
         String namePerson = ScannerSingleton.getInstance().nextLine();
         Optional<User> userExists = findUser(namePerson, users);
         if (userExists.isPresent()) {
@@ -96,7 +96,7 @@ public class TwitterReceiver {
     }
 
     public void post() {
-        System.out.println("Escribe el mensaje que quieres postear en tu WallCommand:");
+        System.out.printf("%s escribe el mensaje que quieres postear en tu WallCommand:", userLogged.getName());
         String status = ScannerSingleton.getInstance().nextLine();
         String message = String.format("%s - %s", userLogged.getName(), status);
         Tweet tweet = Tweet.builder().message(message).time(new Date().getTime()).build();
@@ -115,7 +115,7 @@ public class TwitterReceiver {
     }
 
     public void unfollow() {
-        System.out.println("Escribe el nombre del usuario: ");
+        System.out.printf("%s escribe el nombre del usuario: ", userLogged.getName());
         String name = ScannerSingleton.getInstance().next();
         Optional<User> friendToRemove = this.findUser(name, userLogged.getFriends());
         friendToRemove.ifPresent(userLogged::removeFriend);
@@ -130,7 +130,7 @@ public class TwitterReceiver {
     }
 
     public void wall() {
-        System.out.println("A continuacion se va a mostrar el mural:");
+        System.out.printf("%s a continuacion se va a mostrar tu mural:", userLogged.getName());
         ArrayList<Tweet> wall = new ArrayList<>();
         userLogged.getFriends().forEach(friend -> wall.addAll(friend.getTweets()));
         wall.addAll(userLogged.getTweets());

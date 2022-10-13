@@ -1,4 +1,4 @@
-package model;
+package model.Enum;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

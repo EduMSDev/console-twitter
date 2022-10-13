@@ -83,11 +83,7 @@ public class TwitterController {
     }
 
     private void createUser() {
-        System.out.println("Introduce el  nombre del usuario: ");
-        String nameperson = scanner.nextLine();
-        boolean userAlreadyExists = twitterService.createUser(nameperson);
-        String messageFinal = !userAlreadyExists ? "Usuario  %s incluido %n" : "El usuario con nombre %s ya existe %n";
-        System.out.printf(messageFinal, nameperson);
+
     }
 
     private void following() {

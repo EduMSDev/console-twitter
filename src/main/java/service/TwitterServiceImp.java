@@ -80,10 +80,6 @@ public class TwitterServiceImp implements TwitterService {
         return friendToRemove.isPresent();
     }
 
-    private Optional<User> findUser(String namePerson, List<User> listUser) {
-        return listUser.stream().filter(user -> user.getName().equalsIgnoreCase(namePerson)).findFirst();
-    }
-
     @Override
     public boolean wall() {
         ArrayList<Tweet> wall = new ArrayList<>();

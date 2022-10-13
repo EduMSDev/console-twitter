@@ -1,4 +1,4 @@
-import controller.TwitterController;
+import command.TwitterController;
 import service.factory.TwitterServiceFactoryImp;
 
 public class Main {

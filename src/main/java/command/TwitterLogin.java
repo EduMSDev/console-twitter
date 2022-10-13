@@ -1,8 +1,10 @@
+package command;
+
 import lombok.extern.slf4j.Slf4j;
 import model.User;
 
 @Slf4j
-public class TwitterLogin extends TwitterCommand{
+public class TwitterLogin extends TwitterCommand {
 
     @Override
     void execute() {

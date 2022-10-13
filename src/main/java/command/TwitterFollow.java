@@ -1,3 +1,5 @@
+package command;
+
 import lombok.extern.slf4j.Slf4j;
 import model.Tweet;
 import model.User;
@@ -6,11 +8,11 @@ import java.util.Date;
 import java.util.Optional;
 
 @Slf4j
-public class TwitterFollow extends TwitterCommand{
+public class TwitterFollow extends TwitterCommand {
 
     @Override
     void execute() {
-        log.info("Introduce el  nombre del usuario: ");
+        log.info("Escribe el nombre del usuario que quieres seguir: ");
         String namePerson = scanner.nextLine();
         Optional<User> userExists = findUser(namePerson, users);
         if (userExists.isPresent()) {

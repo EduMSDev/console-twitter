@@ -1,6 +1,7 @@
+package command;
+
 import lombok.extern.slf4j.Slf4j;
 import model.Tweet;
-import model.User;
 
 import java.util.Date;
 

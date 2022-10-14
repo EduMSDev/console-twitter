@@ -2,17 +2,34 @@ package command.concrete;
 
 import command.Command;
 import command.TwitterReceiver;
-import lombok.AllArgsConstructor;
+import exception.UserNotFoundException;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@AllArgsConstructor
-public class ChangeUserCommand implements Command {
+@RequiredArgsConstructor
+public class ChangeUserCommand extends Command {
 
+    @NonNull
     private TwitterReceiver twitterReceiver;
 
     @Override
     public void execute() {
-        twitterReceiver.changeUser();
+        boolean canChangeUser = twitterReceiver.getUsers().size() > 1;
+        if (canChangeUser) {
+            System.out.printf("%s enter the name of the user you want to change:%n",
+                    twitterReceiver.getUserLogged().getName());
+            twitterReceiver.showUsers();
+            String name = super.scanner.nextLine();
+            try {
+                twitterReceiver.setUserLogged(twitterReceiver.findUser(name));
+                System.out.printf("Welcome %s %n", twitterReceiver.getUserLogged().getName());
+            } catch (UserNotFoundException e) {
+                System.err.printf("The user %s does not exist %n", name);
+            }
+        } else {
+            System.err.println("There is only one user, more than one user is needed for the change.");
+        }
     }
 }

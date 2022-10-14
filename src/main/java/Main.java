@@ -1,9 +1,9 @@
-import app.TwitterApp;
+import app.TwitterMenu;
 
 public class Main {
 
     public static void main(String... args) {
-        TwitterApp twitterApp = new TwitterApp();
-        twitterApp.launchApp();
+        TwitterMenu twitterMenu = new TwitterMenu();
+        twitterMenu.launchApp();
     }
 }

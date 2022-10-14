@@ -1,6 +1,5 @@
 package app;
 
-import command.Invoker;
 import command.TwitterReceiver;
 import command.concrete.ChangeUserCommand;
 import command.concrete.CreateUserCommand;
@@ -11,41 +10,40 @@ import command.concrete.ReadCommand;
 import command.concrete.UnfollowCommand;
 import command.concrete.WallCommand;
 import model.Enum.Options;
-import singleton.ScannerSingleton;
 
 import java.util.Arrays;
+import java.util.Scanner;
 
-public class TwitterApp {
+public class TwitterMenu {
+    Scanner scanner = new Scanner(System.in);
 
     public void launchApp() {
         TwitterReceiver twitterReceiver = new TwitterReceiver();
-        Invoker invoker = new Invoker();
-
-        invoker.setCommand(new LoginCommand(twitterReceiver)).run();
+        new LoginCommand(twitterReceiver).execute();
         Options options = showMenu();
 
         while (options != Options.EXIT) {
             switch (options) {
                 case POST:
-                    invoker.setCommand(new PostCommand(twitterReceiver)).run();
+                    new PostCommand(twitterReceiver).execute();
                     break;
                 case READ:
-                    invoker.setCommand(new ReadCommand(twitterReceiver)).run();
+                    new ReadCommand(twitterReceiver).execute();
                     break;
                 case CREATE_USER:
-                    invoker.setCommand(new CreateUserCommand(twitterReceiver)).run();
+                    new CreateUserCommand(twitterReceiver).execute();
                     break;
                 case FOLLOW:
-                    invoker.setCommand(new FollowCommand(twitterReceiver)).run();
+                    new FollowCommand(twitterReceiver).execute();
                     break;
                 case WALL:
-                    invoker.setCommand(new WallCommand(twitterReceiver)).run();
+                    new WallCommand(twitterReceiver).execute();
                     break;
                 case CHANGE_USER:
-                    invoker.setCommand(new ChangeUserCommand(twitterReceiver)).run();
+                    new ChangeUserCommand(twitterReceiver).execute();
                     break;
                 case UNFOLLOW:
-                    invoker.setCommand(new UnfollowCommand(twitterReceiver)).run();
+                    new UnfollowCommand(twitterReceiver).execute();
                     break;
                 default:
                     System.out.println("Unknown option.");
@@ -57,7 +55,7 @@ public class TwitterApp {
     private Options showMenu() {
         System.out.println("Choose from the following options:");
         Arrays.stream(Options.values()).forEach(option -> System.out.println(option.getNameOption()));
-        String option = ScannerSingleton.getInstance().nextLine();
+        String option = scanner.nextLine();
         return Options.getOptions(option);
     }
 }

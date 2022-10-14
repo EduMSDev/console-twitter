@@ -37,23 +37,23 @@ public class TwitterReceiver {
     public void changeUser() {
         boolean canChangeUser = users.size() > 1;
         if (canChangeUser) {
-            System.out.printf("%s escribe el nombre del usuario al que quieras cambiar: ", userLogged.getName());
+            System.out.printf("%s enter the name of the user you want to change:: ", userLogged.getName());
             users.forEach(user -> System.out.printf(user.getName()));
             String name = ScannerSingleton.getInstance().next();
             Optional<User> user = findUser(name, users);
             if (user.isPresent()) {
                 userLogged = user.get();
-                System.out.printf("Bienvenido %s %n", user.get().getName());
+                System.out.printf("Welcome %s %n", user.get().getName());
             } else {
-                System.err.printf("El usuario %s no existe %n", name);
+                System.err.printf("The user %s does not exist %n", name);
             }
         } else {
-            System.err.println("Solo hay un usuario, es necesario mas de uno para el cambio");
+            System.err.println("There is only one user, more than one user is needed for the change.");
         }
     }
 
     public void createUser() {
-        System.out.printf("%s escribe el nombre del usuario al que quieras incluir: ", userLogged.getName());
+        System.out.printf("%s  type the name of the user you want to include: ", userLogged.getName());
         String name = ScannerSingleton.getInstance().nextLine();
         Optional<User> user = findUser(name, users);
         User userToAdd = null;
@@ -62,14 +62,14 @@ public class TwitterReceiver {
             users.add(userToAdd);
         }
         if (userToAdd != null) {
-            System.out.printf("%s ha incluido al usuario %s a EduSocial", userLogged.getName(), userToAdd.getName());
+            System.out.printf("%s has added user %s to EduSocial", userLogged.getName(), userToAdd.getName());
         } else {
-            System.err.printf("El usuario con nombre %s ya existe %n", name);
+            System.err.printf("The user with the name %s already exists %n", name);
         }
     }
 
     public void followUser() {
-        System.out.printf("%s escribe el nombre del usuario que quieres seguir: ", userLogged.getName());
+        System.out.printf("%s  enter the name of the user you want to follow: ", userLogged.getName());
         String namePerson = ScannerSingleton.getInstance().nextLine();
         Optional<User> userExists = findUser(namePerson, users);
         if (userExists.isPresent()) {
@@ -77,68 +77,67 @@ public class TwitterReceiver {
             String followed = String.format("%s ha seguido a %s", userLogged.getName(), userExists.get().getName());
             Tweet tweet = Tweet.builder().message(followed).time(new Date().getTime()).build();
             userLogged.addTweet(tweet);
-            System.out.printf("%s ahora sigue a  %s %n", userLogged.getName(), namePerson);
+            System.out.printf("%s follows  %s %n", userLogged.getName(), namePerson);
         } else {
-            System.err.printf("No se ha encontrado al usuario %s %n", namePerson);
+            System.err.printf("User not found", namePerson);
         }
         boolean userAdded = userExists.isPresent();
-        String message = userAdded ? "Usuario %s incluido %n" : "El usuario con nombre %s ya existe %n";
+        String message = userAdded ? "User %s added %n" : "The user with name %s already exists %n";
         System.out.printf(message, namePerson);
     }
 
     public void login() {
-        System.out.println("Bienvenido a EduSocial, tu red social de confianza ;). Por favor,  escribe tu nombre: ");
+        System.out.println("Welcome to EduSocial, your trusted social network ;). Please enter your name: ");
         String namePerson = ScannerSingleton.getInstance().nextLine();
         User user = User.builder().name(namePerson).build();
         userLogged = user;
         users.add(user);
-        System.out.printf("%s escribe al mundo lo que quieras %n", namePerson);
+        System.out.printf("%s writes to the world what you want to say %n", namePerson);
     }
 
     public void post() {
-        System.out.printf("%s escribe el mensaje que quieres postear en tu WallCommand:", userLogged.getName());
+        System.out.printf("%s  write the message you want to post on your Wall:", userLogged.getName());
         String status = ScannerSingleton.getInstance().nextLine();
         String message = String.format("%s - %s", userLogged.getName(), status);
         Tweet tweet = Tweet.builder().message(message).time(new Date().getTime()).build();
         userLogged.addTweet(tweet);
-        System.out.println("Tweet posteado!");
+        System.out.println("Tweet posted!");
     }
-
     public void read() {
-        System.out.printf("%s este es tu muro personal: ", userLogged.getName());
+        System.out.printf("%s this is your personal wall: ", userLogged.getName());
         if (!userLogged.getTweets().isEmpty()) {
             userLogged.getTweets().forEach(this::calculateTime);
-            System.out.println("Fin del muro");
+            System.out.println("End of the wall");
         } else {
-            System.err.printf("%s no has publicado nada!", userLogged.getName());
+            System.err.printf("%s you have not published anything!", userLogged.getName());
         }
     }
 
     public void unfollow() {
-        System.out.printf("%s escribe el nombre del usuario: ", userLogged.getName());
+        System.out.printf("%s write the username: ", userLogged.getName());
         String name = ScannerSingleton.getInstance().next();
         Optional<User> friendToRemove = this.findUser(name, userLogged.getFriends());
         friendToRemove.ifPresent(userLogged::removeFriend);
         if (friendToRemove.isPresent()) {
-            String tweet = String.format("%s ha dejado de seguir a %s %n", userLogged.getName(), name);
+            String tweet = String.format("%s has unfollowed %s %n", userLogged.getName(), name);
             Tweet unfollowedUser = Tweet.builder().message(tweet).time(new Date().getTime()).build();
             userLogged.addTweet(unfollowedUser);
             System.out.printf(tweet);
         } else {
-            System.err.printf("%s no esta en tu lista de amigos %n", name);
+            System.err.printf("%s is not in your friends list  %n", name);
         }
     }
 
     public void wall() {
-        System.out.printf("%s a continuacion se va a mostrar tu mural:", userLogged.getName());
+        System.out.printf("%s your mural will now be displayed:", userLogged.getName());
         ArrayList<Tweet> wall = new ArrayList<>();
         userLogged.getFriends().forEach(friend -> wall.addAll(friend.getTweets()));
         wall.addAll(userLogged.getTweets());
         if (!wall.isEmpty()) {
             wall.stream().sorted(Comparator.comparing(Tweet::getTime)).forEach(this::calculateTime);
-            System.out.println("Fin del muro");
+            System.out.println("End of the wall");
         } else {
-            System.err.println("No se ha posteado ningun tweet. Nada que mostrar");
+            System.err.println("No tweets have been posted!");
         }
     }
 

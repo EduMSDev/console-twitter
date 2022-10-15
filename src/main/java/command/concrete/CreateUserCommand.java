@@ -27,10 +27,10 @@ public class CreateUserCommand extends Command {
             twitterReceiver.getUsers().add(userToAdd);
         }
         if (userToAdd != null) {
-            System.out.printf("%s has added user %s to EduSocial %n", twitterReceiver.getUserLogged().getName(),
+            System.out.printf("%s has added user %s to EduSocial%n", twitterReceiver.getUserLogged().getName(),
                     userToAdd.getName());
         } else {
-            System.err.printf("The user with the name %s already exists %n", name);
+            System.err.printf("The user with the name %s already exists%n", name);
         }
     }
 }

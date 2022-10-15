@@ -17,10 +17,10 @@ public class WallCommand extends Command {
 
     @Override
     public void execute() {
-        System.out.printf("%s your mural will now be displayed:",  twitterReceiver.getUserLogged().getName());
+        System.out.printf("%s your mural will now be displayed:", twitterReceiver.getUserLogged().getName());
         ArrayList<Tweet> wall = new ArrayList<>();
-         twitterReceiver.getUserLogged().getFriends().forEach(friend -> wall.addAll(friend.getTweets()));
-        wall.addAll( twitterReceiver.getUserLogged().getTweets());
+        twitterReceiver.getUserLogged().getFriends().forEach(friend -> wall.addAll(friend.getTweets()));
+        wall.addAll(twitterReceiver.getUserLogged().getTweets());
         if (!wall.isEmpty()) {
             wall.stream().sorted(Comparator.comparing(Tweet::getTime)).forEach(twitterReceiver::calculateTime);
             System.out.println("End of the wall");

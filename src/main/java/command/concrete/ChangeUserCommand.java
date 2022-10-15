@@ -24,7 +24,7 @@ public class ChangeUserCommand extends Command {
             String name = super.scanner.nextLine();
             try {
                 twitterReceiver.setUserLogged(twitterReceiver.findUser(name));
-                System.out.printf("Welcome %s %n", twitterReceiver.getUserLogged().getName());
+                System.out.printf("Welcome %s%n", twitterReceiver.getUserLogged().getName());
             } catch (UserNotFoundException e) {
                 System.err.printf("The user %s does not exist %n", name);
             }

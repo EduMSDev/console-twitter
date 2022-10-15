@@ -1,10 +1,15 @@
 package command.concrete;
 
-import org.junit.jupiter.api.BeforeEach;
+import base.TwitterTestBase;
+import command.TwitterReceiver;
+import org.junit.jupiter.api.BeforeAll;
 
-class PostCommandTest {
+class PostCommandTest extends TwitterTestBase {
 
-    @BeforeEach
-    void setUp() {
+    private static TwitterReceiver twitterReceiver = new TwitterReceiver();
+
+    @BeforeAll
+    static void setUp() throws Exception {
+        doLogin(twitterReceiver);
     }
 }

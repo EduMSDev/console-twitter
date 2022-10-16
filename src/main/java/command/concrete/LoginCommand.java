@@ -22,6 +22,6 @@ public class LoginCommand extends Command {
         User user = User.builder().name(namePerson).build();
         twitterReceiver.setUserLogged(user);
         twitterReceiver.getUsers().add(user);
-        System.out.printf("%s writes to the world what you want to say %n", namePerson);
+        System.out.printf("%s writes to the world what you want to say%n", namePerson);
     }
 }

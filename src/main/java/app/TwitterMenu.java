@@ -15,12 +15,13 @@ import java.util.Arrays;
 import java.util.Scanner;
 
 public class TwitterMenu {
-    Scanner scanner = new Scanner(System.in);
+
 
     public void launchApp() {
+        Scanner scanner = new Scanner(System.in);
         TwitterReceiver twitterReceiver = new TwitterReceiver();
         new LoginCommand(twitterReceiver).execute();
-        Options options = showMenu();
+        Options options = showMenu(scanner);
 
         while (options != Options.EXIT) {
             switch (options) {
@@ -48,14 +49,14 @@ public class TwitterMenu {
                 default:
                     System.out.println("Unknown option.");
             }
-            options = showMenu();
+            options = showMenu(scanner);
         }
     }
 
-    private Options showMenu() {
+    private Options showMenu(Scanner scanner) {
         System.out.println("Choose from the following options:");
         Arrays.stream(Options.values()).forEach(option -> System.out.println(option.getNameOption()));
-        String option = scanner.nextLine();
+        String option = scanner.next();
         return Options.getOptions(option);
     }
 }

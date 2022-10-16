@@ -19,7 +19,7 @@ public class UnfollowCommand extends Command {
 
     @Override
     public void execute() {
-        System.out.printf("%s write your friends's name:%n", twitterReceiver.getUserLogged().getName());
+        System.out.printf("%s write your friend's name:%n", twitterReceiver.getUserLogged().getName());
         twitterReceiver.getUserLogged().getFriends().forEach(friend-> System.out.println(friend.getName()));
         String name = scanner.nextLine();
         try {

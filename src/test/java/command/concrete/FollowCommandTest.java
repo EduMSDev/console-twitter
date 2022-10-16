@@ -1,12 +1,7 @@
 package command.concrete;
 
 import base.TwitterTestBase;
-import command.TwitterReceiver;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.MethodOrderer;
-import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
 
 import java.util.concurrent.atomic.AtomicReference;
 

@@ -1,7 +1,6 @@
 package command.concrete;
 
 import base.TwitterTestBase;
-import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 
 import static com.github.stefanbirkner.systemlambda.SystemLambda.*;
@@ -16,7 +15,7 @@ class ReadCommandTest extends TwitterTestBase {
         String messagePrinted = tapSystemErr(() -> new ReadCommand(twitterReceiver).execute());
 
         String lastMessageFromConsole = getLastMessageFromConsole(messagePrinted);
-        assertEquals(lastMessageFromConsole, "Edu you have not published anything!");
+        assertEquals("Edu you have not published anything!", lastMessageFromConsole);
     }
 
     @Test

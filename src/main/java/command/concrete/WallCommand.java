@@ -17,9 +17,9 @@ public class WallCommand extends Command {
 
     @Override
     public void execute() {
-        System.out.printf("%s your mural will now be displayed:%n", twitterReceiver.getUserLogged().getName());
         ArrayList<Tweet> wall = new ArrayList<>();
         if (!twitterReceiver.getUserLogged().getFriends().isEmpty()) {
+            System.out.printf("%s your mural will now be displayed:%n", twitterReceiver.getUserLogged().getName());
             twitterReceiver.getUserLogged().getFriends().forEach(friend -> wall.addAll(friend.getTweets()));
             wall.addAll(twitterReceiver.getUserLogged().getTweets());
             wall.stream().sorted(Comparator.comparing(Tweet::getTime)).forEach(twitterReceiver::calculateTime);

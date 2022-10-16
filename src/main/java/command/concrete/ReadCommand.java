@@ -13,8 +13,8 @@ public class ReadCommand extends Command {
 
     @Override
     public void execute() {
-        System.out.printf("%s this is your personal wall:%n", twitterReceiver.getUserLogged().getName());
         if (!twitterReceiver.getUserLogged().getTweets().isEmpty()) {
+            System.out.printf("%s this is your personal wall:%n", twitterReceiver.getUserLogged().getName());
             twitterReceiver.getUserLogged().getTweets().forEach(twitterReceiver::calculateTime);
         } else {
             System.err.printf("%s you have not published anything!%n", twitterReceiver.getUserLogged().getName());

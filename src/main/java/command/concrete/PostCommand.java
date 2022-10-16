@@ -16,12 +16,12 @@ public class PostCommand extends Command {
 
     @Override
     public void execute() {
-        System.out.printf("%s  write the message you want to post on your Wall:%n",
+        System.out.printf("%s write the message you want to post on your Wall:%n",
                 twitterReceiver.getUserLogged().getName());
         String status = scanner.nextLine();
-        String message = String.format("%s - %s%n", twitterReceiver.getUserLogged().getName(), status);
+        String message = String.format("%s - %s", twitterReceiver.getUserLogged().getName(), status);
         Tweet tweet = Tweet.builder().message(message).time(new Date().getTime()).build();
         twitterReceiver.getUserLogged().addTweet(tweet);
-        System.out.println("Tweet posted!");
+        System.out.printf("%s%n", message);
     }
 }

@@ -19,13 +19,12 @@ public class WallCommand extends Command {
     public void execute() {
         System.out.printf("%s your mural will now be displayed:%n", twitterReceiver.getUserLogged().getName());
         ArrayList<Tweet> wall = new ArrayList<>();
-        twitterReceiver.getUserLogged().getFriends().forEach(friend -> wall.addAll(friend.getTweets()));
-        wall.addAll(twitterReceiver.getUserLogged().getTweets());
-        if (!wall.isEmpty()) {
+        if (!twitterReceiver.getUserLogged().getFriends().isEmpty()) {
+            twitterReceiver.getUserLogged().getFriends().forEach(friend -> wall.addAll(friend.getTweets()));
+            wall.addAll(twitterReceiver.getUserLogged().getTweets());
             wall.stream().sorted(Comparator.comparing(Tweet::getTime)).forEach(twitterReceiver::calculateTime);
-            System.out.println("End of the wall%n");
         } else {
-            System.err.println("No tweets have been posted!%n");
+            System.err.println("You don't follow anyone. If you want to see your own tweets, choose the read option");
         }
     }
 

@@ -1,15 +1,23 @@
 package command.concrete;
 
 import base.TwitterTestBase;
-import command.TwitterReceiver;
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+
+import java.util.concurrent.atomic.AtomicReference;
+
+import static com.github.stefanbirkner.systemlambda.SystemLambda.tapSystemOut;
+import static com.github.stefanbirkner.systemlambda.SystemLambda.withTextFromSystemIn;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class PostCommandTest extends TwitterTestBase {
 
-    private static TwitterReceiver twitterReceiver = new TwitterReceiver();
+    @Test
+    void checkIfTweetIsPostedTest() throws Exception {
+        String messageToPost = "Hello world! i am Edu";
+        AtomicReference<String> messagePrinted = new AtomicReference<>();
+        withTextFromSystemIn(messageToPost).execute(() -> messagePrinted.set(tapSystemOut(() -> new PostCommand(twitterReceiver).execute())));
 
-    @BeforeAll
-    static void setUp() throws Exception {
-        doLogin(twitterReceiver);
+        String lastMessageFromConsole = getLastMessageFromConsole(messagePrinted.get());
+        assertEquals(lastMessageFromConsole, "Edu - " + messageToPost);
     }
 }

@@ -25,16 +25,14 @@ public class FollowCommand extends Command {
         String namePerson = scanner.nextLine();
         try {
             User friendToFind = twitterReceiver.findUser(namePerson);
-            Optional<User> friendOptional =
-                    twitterReceiver.getUserLogged().getFriends().stream().filter(friend -> friendToFind.getName().equalsIgnoreCase(friend.getName())).findFirst();
-
+            Optional<User> friendOptional = twitterReceiver.findFriend(namePerson);
             if (friendOptional.isEmpty()) {
                 twitterReceiver.getUserLogged().addFriendToList(friendToFind);
-                String followed = String.format("%s follows %s%n", twitterReceiver.getUserLogged().getName(),
+                String followed = String.format("%s follows %s", twitterReceiver.getUserLogged().getName(),
                         friendToFind.getName());
                 Tweet tweet = Tweet.builder().message(followed).time(new Date().getTime()).build();
                 twitterReceiver.getUserLogged().addTweet(tweet);
-                System.out.printf(followed);
+                System.out.println(followed);
             } else {
                 System.err.printf("%s you already follow the user %s%n", twitterReceiver.getUserLogged().getName(),friendOptional.get().getName());
             }

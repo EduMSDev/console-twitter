@@ -16,7 +16,6 @@ public class ReadCommand extends Command {
         System.out.printf("%s this is your personal wall:%n", twitterReceiver.getUserLogged().getName());
         if (!twitterReceiver.getUserLogged().getTweets().isEmpty()) {
             twitterReceiver.getUserLogged().getTweets().forEach(twitterReceiver::calculateTime);
-            System.out.println("End of the wall%n");
         } else {
             System.err.printf("%s you have not published anything!%n", twitterReceiver.getUserLogged().getName());
         }

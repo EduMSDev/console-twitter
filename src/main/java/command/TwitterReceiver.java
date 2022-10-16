@@ -9,6 +9,7 @@ import model.User;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
 @Slf4j
@@ -23,6 +24,10 @@ public class TwitterReceiver {
                 orElseThrow(() -> new UserNotFoundException("User " + namePerson + " not found\n"));
     }
 
+    public Optional<User> findFriend(String namePerson) {
+        return userLogged.getFriends().stream().filter(user -> user.getName().equalsIgnoreCase(namePerson)).findFirst();
+    }
+
     public void calculateTime(Tweet tweet) {
         long time = TimeUnit.MILLISECONDS.toSeconds(new Date().getTime() - tweet.getTime());
         String measure;
@@ -32,7 +37,8 @@ public class TwitterReceiver {
             time = TimeUnit.MILLISECONDS.toMinutes(new Date().getTime() - tweet.getTime());
             measure = " minute(s) ago";
         }
-        System.out.printf("%s (%s %s)%n", tweet.getMessage(), time, measure);
+        String format = String.format("%s (%s %s)%n", tweet.getMessage(), time, measure);
+        System.out.printf(format);
     }
 
     public void showUsers() {

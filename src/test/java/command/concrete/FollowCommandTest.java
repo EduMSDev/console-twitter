@@ -13,28 +13,18 @@ import java.util.concurrent.atomic.AtomicReference;
 import static com.github.stefanbirkner.systemlambda.SystemLambda.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class FollowCommandTest extends TwitterTestBase {
 
-    private static final TwitterReceiver twitterReceiver = new TwitterReceiver();
-
-    @BeforeAll
-    static void setUp() throws Exception {
-        doLogin(twitterReceiver);
-    }
-
     @Test
-    @Order(1)
     void userNotFoundTest() throws Exception {
         AtomicReference<String> errorPrinted = new AtomicReference<>();
         withTextFromSystemIn("Alberto").execute(() -> errorPrinted.set(tapSystemErr(() -> new FollowCommand(twitterReceiver).execute())));
 
-        String lastMessageFromConsole = getLastMessageFromConsole(errorPrinted);
+        String lastMessageFromConsole = getLastMessageFromConsole(errorPrinted.get());
         assertEquals("User Alberto not found", lastMessageFromConsole);
     }
 
     @Test
-    @Order(2)
     void userAlreadyFollowedTest() throws Exception {
         withTextFromSystemIn("Juan").execute(() -> new CreateUserCommand(twitterReceiver).execute());
 
@@ -42,7 +32,7 @@ class FollowCommandTest extends TwitterTestBase {
         withTextFromSystemIn("Juan").execute(() -> errorPrinted.set(tapSystemErr(() -> new FollowCommand(twitterReceiver).execute())));
         withTextFromSystemIn("Juan").execute(() -> errorPrinted.set(tapSystemErr(() -> new FollowCommand(twitterReceiver).execute())));
 
-        String lastMessageFromConsole = getLastMessageFromConsole(errorPrinted);
+        String lastMessageFromConsole = getLastMessageFromConsole(errorPrinted.get());
         assertEquals("Edu you already follow the user Juan", lastMessageFromConsole);
     }
 
@@ -50,10 +40,10 @@ class FollowCommandTest extends TwitterTestBase {
     void followedUserTest() throws Exception {
         withTextFromSystemIn("Alberto").execute(() -> new CreateUserCommand(twitterReceiver).execute());
 
-        AtomicReference<String> errorPrinted = new AtomicReference<>();
-        withTextFromSystemIn("Alberto").execute(() -> errorPrinted.set(tapSystemOut(() -> new FollowCommand(twitterReceiver).execute())));
+        AtomicReference<String> messagePrinted = new AtomicReference<>();
+        withTextFromSystemIn("Alberto").execute(() -> messagePrinted.set(tapSystemOut(() -> new FollowCommand(twitterReceiver).execute())));
 
-        String lastMessageFromConsole = getLastMessageFromConsole(errorPrinted);
+        String lastMessageFromConsole = getLastMessageFromConsole(messagePrinted.get());
         assertEquals("Edu follows Alberto", lastMessageFromConsole);
     }
 }

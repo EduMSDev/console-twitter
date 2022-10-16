@@ -36,10 +36,10 @@ public class FollowCommand extends Command {
                 twitterReceiver.getUserLogged().addTweet(tweet);
                 System.out.printf(followed);
             } else {
-                System.err.printf("%s you already follow the user %s", twitterReceiver.getUserLogged().getName(),friendOptional.get().getName());
+                System.err.printf("%s you already follow the user %s%n", twitterReceiver.getUserLogged().getName(),friendOptional.get().getName());
             }
         } catch (UserNotFoundException e) {
-            System.err.printf("User %s not found", namePerson);
+            System.err.printf(e.getMessage());
         }
     }
 }

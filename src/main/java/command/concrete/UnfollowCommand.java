@@ -18,7 +18,7 @@ public class UnfollowCommand extends Command {
 
     @Override
     public void execute() {
-        System.out.printf("%s write the username: ", twitterReceiver.getUserLogged().getName());
+        System.out.printf("%s write the username:%n", twitterReceiver.getUserLogged().getName());
         String name = scanner.nextLine();
         try {
             User friendToRemove = twitterReceiver.findUser(name);
@@ -28,7 +28,7 @@ public class UnfollowCommand extends Command {
             twitterReceiver.getUserLogged().addTweet(unfollowedUser);
             System.out.printf(tweet);
         } catch (UserNotFoundException e) {
-            System.err.printf("%s is not in your friends list  %n", name);
+            System.err.printf("%s is not in your friendslist%n", name);
         }
     }
 }

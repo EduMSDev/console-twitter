@@ -19,7 +19,8 @@ public class TwitterReceiver {
     private User userLogged;
 
     public User findUser(String namePerson) {
-        return users.stream().filter(user -> user.getName().equalsIgnoreCase(namePerson)).findFirst().orElseThrow(UserNotFoundException::new);
+        return users.stream().filter(user -> user.getName().equalsIgnoreCase(namePerson)).findFirst().
+                orElseThrow(() -> new UserNotFoundException("User " + namePerson + " not found\n"));
     }
 
     public void calculateTime(Tweet tweet) {
@@ -31,7 +32,7 @@ public class TwitterReceiver {
             time = TimeUnit.MILLISECONDS.toMinutes(new Date().getTime() - tweet.getTime());
             measure = " minute(s) ago";
         }
-        System.out.printf("%s (%s %s)", tweet.getMessage(), time, measure);
+        System.out.printf("%s (%s %s)%n", tweet.getMessage(), time, measure);
     }
 
     public void showUsers() {

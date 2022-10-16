@@ -39,7 +39,7 @@ public class ChangeUserCommandTest extends TwitterTestBase {
         AtomicReference<String> errorPrinted = new AtomicReference<>();
         withTextFromSystemIn("Alberto").execute(() -> errorPrinted.set(tapSystemErr(() -> new ChangeUserCommand(twitterReceiver).execute())));
 
-        assertEquals("The user Alberto does not exist \n", errorPrinted.get());
+        assertEquals("User Alberto not found\n", errorPrinted.get());
     }
 
     @Test

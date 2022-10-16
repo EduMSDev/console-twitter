@@ -1,5 +1,0 @@
-package command;
-
-class TwitterReceiverTest {
-
-}
